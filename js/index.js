@@ -182,8 +182,14 @@ function addRowColumn() {
 
 }
 
+function reload() {
+    location.reload();
+}
+
 $(document).ready(function () {
     load();
     $('td').on('click', assigntxo);
     $('#addRowColumn', addRowColumn);
+    $('#reset').on('click', reload);
+
 });
