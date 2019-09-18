@@ -155,10 +155,14 @@ function assigntxo(e) {
 
         e.target.innerText = assign.getContent();
     }
+}
+
+function addRowColumn() {
 
 }
 
 $(document).ready(function () {
     load();
     $('td').on('click', assigntxo);
+    $('#addRowColumn', addRowColumn);
 });
