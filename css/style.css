@@ -45,11 +45,20 @@ h1 {
     border-radius: 4px;
     border: grey solid thin;
     background-color: darkgray;
-    width: fit-content;
+    width: min-content;
     padding: 0.4em;
 }
 
 .button:hover {
     cursor: pointer;
     background-color: slategray;
+}
+
+.fields-form {
+    margin: 0.5em;
+}
+
+.label {
+    width:10%;
+    display: inline-block;
 }

@@ -23,7 +23,8 @@ function load() {
 }
 
 var assign = new function() {
-    let content = null;
+    let content = null,
+        increament = 0;
 
     this.getContent = function ()  {
         return content;
@@ -31,6 +32,14 @@ var assign = new function() {
 
     this.setContent = function (param) {
         content = param;
+    };
+
+    this.count = function () {
+        increament++;
+    };
+
+    this.getCount = function () {
+        return increament;
     };
 };
 
@@ -92,7 +101,6 @@ var storeXO = new function () {
                         if (store[i].row == j) {
                             if (store[i].value == values) {
                                 status++;
-                                console.log(status);
                                 if (status == table_row) return true;
                             }
                         }
@@ -127,11 +135,13 @@ function checkingBuilder() {
     this.check = function (stores, rows, columns, values) {
         let c = new checkingFlow();
         if ( c.byRows(stores, rows, values) == true) {
-            alert('Menang Rows');
+            return true;
         } else if (c.byColumn(stores, columns, values) == true) {
-            alert('Menang Columns');
+            return true;
         } else if ( c.byRowsColumns(stores, rows, columns, values) == true) {
-            alert('Menang By Rows Columns');
+            return true;
+        } else {
+            return false;
         }
     };
 }
@@ -146,14 +156,25 @@ function assigntxo(e) {
         if (assign.getContent() == X) {
             assign.setContent(O);
             storeXO.setTabung(row, column, assign.getContent());
-            cb.check(storeXO.getTabungO(), row, column, assign.getContent());
+            e.target.innerText = assign.getContent();
+            if ( cb.check(storeXO.getTabungO(), row, column, assign.getContent()) ) {
+                alert('Player 2 win');
+                return;
+            }
         } else {
             assign.setContent(X);
             storeXO.setTabung(row, column, assign.getContent());
-            cb.check(storeXO.getTabungX(), row, column, assign.getContent());
+            e.target.innerText = assign.getContent();
+            if (cb.check(storeXO.getTabungX(), row, column, assign.getContent()) ) {
+                alert('Player 1 win');
+                return;
+            }
         }
 
-        e.target.innerText = assign.getContent();
+        assign.count();
+        if (assign.getCount() == (table_row * table_column)) {
+            alert('Tie');
+        }
     }
 }
 
