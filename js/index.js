@@ -1,15 +1,15 @@
 const  X = "X";
 const  O = "O";
 
-var table_row = 3,
+let table_row = 3,
     table_column = 3;
 
 function load() {
-    var html = '', i = 0, j = null;
+    let html = '', i = 0, j = null;
 
     while (i < table_row) {
-        html += '<tr>',
-            j = 0;
+        j = 0;
+        html += '<tr>';
 
         while (j < table_column) {
             html += '<td data-row="' + i + '" data-column="' + j + '"></td>';
@@ -23,7 +23,7 @@ function load() {
 }
 
 var assign = new function() {
-    var content = null;
+    let content = null;
 
     this.getContent = function ()  {
         return content;
@@ -34,118 +34,128 @@ var assign = new function() {
     };
 };
 
-var save = new function () {
-    var tabungX = [];
-    var tabungO = [];
-    var status = false;
+var storeXO = new function () {
+    let tabungX = [],
+        tabungO = [];
 
     this.getTabungX = function () {
         return tabungX;
     };
 
-    this.getTabungO = function() {
+    this.getTabungO = function () {
         return tabungO;
     };
 
-    this.setTabung = function(rows, columns, values) {
-        var val = {
-            row : rows,
+    this.setTabung = function (rows, columns, values) {
+        let val = {
+            row: rows,
             column: columns,
             value: values
         };
 
         if (values == X) {
             tabungX.push(val);
-        } else  {
+        } else {
             tabungO.push(val);
         }
     };
+};
 
-    this.byRows = function (rows, values) {
+ function checkingFlow() {
+     let status = 0;
+    this.byRows = function (store, rows, values) {
         if (!status) {
-            for (var i in tabungX) {
-                if (tabungX[i].row == rows) {
+            let i;
+            for (i in store) {
+                if (store[i].row == rows) {
                     for (var j = 0; j < table_column; j++) {
-                        if (tabungX[i].column != j && tabungX[i].value != values) {
-                            status = true;
-                        } else {
-                            status = false;
-                            break;
+                        if (store[i].column == j) {
+                            if (store[i].value == values) {
+                                status++;
+                                if (status == table_column) return true;
+                            }
                         }
                     }
                 }
             }
         }
-        return status;
+        status = 0;
+        return false;
     };
 
-    this.byColumn = function (columns, values) {
+    this.byColumn = function (store, columns, values) {
         if (!status) {
-            for (var i in tabungX) {
-                if (tabungX[i].column == columns) {
+            let i;
+            for (i in store) {
+                if (store[i].column == columns) {
                     for (var j = 0; j < table_row; j++) {
-                        if (tabungX[i].row == j && tabungX[i].value == values) {
-                            status = true;
-                        } else {
-                            status = false;
-                            break;
+                        if (store[i].row == j) {
+                            if (store[i].value == values) {
+                                status++;
+                                console.log(status);
+                                if (status == table_row) return true;
+                            }
                         }
                     }
                 }
             }
         }
+        status = 0;
         return status;
     };
 
-    this.byRowsColumns = function (rows, columns, values) {
+    this.byRowsColumns = function (store, rows, columns, values) {
         if (!status) {
-            if (var t in tabungX) {
-                for (var i = 0, j = 0; i < table_row && j < table_column; i++, j++) {
-                    if (tabungX[t].row == i && tabungX[i].column == j && tabungX[t].value == values) {
-                        status = true;
-                    } else  {
-                        status = false;
-                        break;
+            let t;
+            for (t in store) {
+                for (let i = 0, j = 0; i < table_row && j < table_column; i++, j++) {
+                    if (store[t].row == i && store[t].column == j) {
+                        if (store[t].value == values) {
+                            status++;
+                            if (status == table_row) return true;
+                        }
                     }
                 }
             }
         }
+        status = 0;
         return status;
     };
+}
 
-    this.checking = function (rows, columns, values) {
-        if ( this.byRows(rows, values) == true) {
+function checkingBuilder() {
+    this.check = function (stores, rows, columns, values) {
+        let c = new checkingFlow();
+        if ( c.byRows(stores, rows, values) == true) {
             alert('Menang Rows');
-        } else if (this.byColumn(rows, values) == true) {
+        } else if (c.byColumn(stores, columns, values) == true) {
             alert('Menang Columns');
-        } else if ( this.byRowsColumns(rows, columns, values) == true) {
+        } else if ( c.byRowsColumns(stores, rows, columns, values) == true) {
             alert('Menang By Rows Columns');
         }
     };
-
-};
-
-function assigntxo(e) {
-    var d = e.target.textContent,
-        row = e.target.dataset.row,
-        column = e.target.dataset.column;
-
-    if (d.toString().toUpperCase() != X && d.toString().toUpperCase() != O)  {
-        if (assign.getContent() == X) {
-            assign.setContent(O);
-        } else {
-            assign.setContent(X);
-        }
-
-        save.setTabung(row, column, assign.getContent());
-        e.target.innerText = assign.getContent();
-        straigt();
-    }
 }
 
-function straigt(row, column, vals) {
-    if (vals == X) {
+function assigntxo(e) {
+    let d = e.target.textContent,
+        row = e.target.dataset.row,
+        column = e.target.dataset.column,
+        cb = new checkingBuilder();
+
+    if (d.toString().toUpperCase() != X && d.toString().toUpperCase() != O) {
+        if (assign.getContent() == X) {
+            assign.setContent(O);
+            storeXO.setTabung(row, column, assign.getContent());
+            cb.check(storeXO.getTabungO(), row, column, assign.getContent());
+        } else {
+            assign.setContent(X);
+            storeXO.setTabung(row, column, assign.getContent());
+            cb.check(storeXO.getTabungX(), row, column, assign.getContent());
+        }
+
+        e.target.innerText = assign.getContent();
     }
+
 }
 
 $(document).ready(function () {
