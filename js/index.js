@@ -37,6 +37,7 @@ var assign = new function() {
 var save = new function () {
     var tabungX = [];
     var tabungO = [];
+    var status = false;
 
     this.getTabungX = function () {
         return tabungX;
@@ -48,9 +49,9 @@ var save = new function () {
 
     this.setTabung = function(rows, columns, values) {
         var val = {
-            row: rows,
+            row : rows,
             column: columns,
-            value: values,
+            value: values
         };
 
         if (values == X) {
@@ -59,6 +60,69 @@ var save = new function () {
             tabungO.push(val);
         }
     };
+
+    this.byRows = function (rows, values) {
+        if (!status) {
+            for (var i in tabungX) {
+                if (tabungX[i].row == rows) {
+                    for (var j = 0; j < table_column; j++) {
+                        if (tabungX[i].column != j && tabungX[i].value != values) {
+                            status = true;
+                        } else {
+                            status = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return status;
+    };
+
+    this.byColumn = function (columns, values) {
+        if (!status) {
+            for (var i in tabungX) {
+                if (tabungX[i].column == columns) {
+                    for (var j = 0; j < table_row; j++) {
+                        if (tabungX[i].row == j && tabungX[i].value == values) {
+                            status = true;
+                        } else {
+                            status = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return status;
+    };
+
+    this.byRowsColumns = function (rows, columns, values) {
+        if (!status) {
+            if (var t in tabungX) {
+                for (var i = 0, j = 0; i < table_row && j < table_column; i++, j++) {
+                    if (tabungX[t].row == i && tabungX[i].column == j && tabungX[t].value == values) {
+                        status = true;
+                    } else  {
+                        status = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return status;
+    };
+
+    this.checking = function (rows, columns, values) {
+        if ( this.byRows(rows, values) == true) {
+            alert('Menang Rows');
+        } else if (this.byColumn(rows, values) == true) {
+            alert('Menang Columns');
+        } else if ( this.byRowsColumns(rows, columns, values) == true) {
+            alert('Menang By Rows Columns');
+        }
+    };
+
 };
 
 function assigntxo(e) {
@@ -79,21 +143,9 @@ function assigntxo(e) {
     }
 }
 
-function straigt(vals) {
+function straigt(row, column, vals) {
     if (vals == X) {
-        for (var i = 0; i < table_row; i++) {
-            for (var j = 0; j < table_column; j++) {
-                for (var k = 0; k < save.getTabungX(); k++) {
-                    if () {
-                        
-                    }
-                }
-            }
-        }
-    }  else {
-        save.getTabungO();
     }
-
 }
 
 $(document).ready(function () {
