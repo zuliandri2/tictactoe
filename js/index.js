@@ -112,7 +112,7 @@ var storeXO = new function () {
         return status;
     };
 
-    this.byRowsColumns = function (store, rows, columns, values) {
+    this.byRowsColumnsRightDown = function (store, rows, columns, values) {
         if (!status) {
             let t;
             for (t in store) {
@@ -129,6 +129,24 @@ var storeXO = new function () {
         status = 0;
         return status;
     };
+
+     this.byRowsColumnsLeftDown = function (store, rows, columns, values) {
+         if (!status) {
+             let t;
+             for (t in store) {
+                 for (let i = table_row - 1, j = 0; i >= 0 && j <= table_column - 1; i--, j++) {
+                     if (store[t].row == i && store[t].column == j) {
+                         if (store[t].value == values) {
+                             status++;
+                             if (status == table_row) return true;
+                         }
+                     }
+                 }
+             }
+         }
+         status = 0;
+         return status;
+     };
 }
 
 function checkingBuilder() {
@@ -138,7 +156,9 @@ function checkingBuilder() {
             return true;
         } else if (c.byColumn(stores, columns, values) == true) {
             return true;
-        } else if ( c.byRowsColumns(stores, rows, columns, values) == true) {
+        } else if ( c.byRowsColumnsRightDown(stores, rows, columns, values) == true) {
+            return true;
+        } else if (c.byRowsColumnsLeftDown(stores, rows, columns, values) == true) {
             return true;
         } else {
             return false;
