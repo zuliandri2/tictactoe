@@ -16,7 +16,7 @@ td {
     height: 3em;
     border-style: solid;
     border-color: grey;
-    font-size: 50px;
+    font-size: 3em;
     font-weight: bolder;
     border-radius: 10px;
 }
@@ -53,16 +53,20 @@ h1 {
 
 .label {
     display: inline-block;
+    margin: 2px;
 }
 
 
-.column {
+.column-4 {
     width: 40%;
 }
 
-.column > .fields-form {
+.column-4 > .fields-form {
     padding: 0.5em;
-    margin: 1em;
+}
+
+.column-6 {
+    width: 60em;
 }
 
 .column-1 {

@@ -11,29 +11,30 @@
 <div class="container"><h1 class="text-center">TIC TAC TOE</h1></div>
 
 <div class="container flex">
-    <div class="column">
+    <div class="column-4">
         <div class="fields-form">
             <div class="label column-1">Row & Column</div>
-            <input type="text" value="" class="column-2">
+            <input type="range" min="3" max="10" value="3" class="column-2 label" id="row_column">
+            <label class="label" id="show_slider">0</label>
         </div>
         <div class="fields-form">
             <div class="label column-1">Border color</div>
-            <input type="color">
+            <input type="color" id="border_colour">
         </div>
         <div class="fields-form">
             <div class="label column-1">Player1 color</div>
-            <input type="color">
+            <input type="color" id="p1Color">
         </div>
         <div class="fields-form">
             <div class="label column-1" >Player2 color</div>
-            <input type="color">
+            <input type="color" id="p2Colour">
         </div>
         <div class="fields-form">
-            <div class="button">Apply</div>
+            <div class="button" id="apply">Apply</div>
             <div class="button" id="reset">Reset</div>
         </div>
     </div>
-    <div class="column">
+    <div class="column-6">
         <div class="table">
             <table align="center" class="text-center"></table>
         </div>
