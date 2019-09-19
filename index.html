@@ -17,10 +17,10 @@
             <input type="range" min="3" max="10" value="3" class="column-2 label" id="row_column">
             <label class="label" id="show_slider">0</label>
         </div>
-        <div class="fields-form">
-            <div class="label column-1">Border color</div>
-            <input type="color" id="border_colour">
-        </div>
+        <!--<div class="fields-form">-->
+            <!--<div class="label column-1">Border color</div>-->
+            <!--<input type="color" id="border_colour">-->
+        <!--</div>-->
         <div class="fields-form">
             <div class="label column-1">Player1 color</div>
             <input type="color" id="p1Color">
@@ -32,7 +32,21 @@
         <div class="fields-form">
             <div class="button" id="apply">Apply</div>
             <div class="button" id="reset">Reset</div>
+            <div class="button" id="continue">Continue</div>
         </div>
+        <fieldset>
+            <div class="column-4">
+                <div class="fields-form">
+                    <div class="label column-1">Player1</div><label id="winPlayer1">0</label>
+                </div>
+                <div class="fields-form">
+                    <div class="column-1 label">Player2</div><label id="winPlayer2">0</label>
+                </div>
+                <div class="fields-form">
+                    <div class="column-1 label">Tie</div><label id="tie">0</label>
+                </div>
+            </div>
+        </fieldset>
     </div>
     <div class="column-6">
         <div class="table">

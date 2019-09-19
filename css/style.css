@@ -21,6 +21,10 @@ td {
     border-radius: 10px;
 }
 
+td:hover {
+    background-color: rgba(146,210,255,0.49);
+}
+
 .text-center {
     text-align: center;
 }
@@ -83,4 +87,8 @@ h1 {
 
 .flex {
     display: flex;
+}
+
+fieldset {
+    margin: 3em 0em;
 }

@@ -53,6 +53,10 @@ var assign = new function() {
     this.getCount = function () {
         return increament;
     };
+
+    this.resetCount = function () {
+        increament = 0;
+    };
 };
 
 var storeXO = new function () {
@@ -79,6 +83,14 @@ var storeXO = new function () {
         } else {
             tabungO.push(val);
         }
+    };
+
+    this.resetTabungX = function () {
+        tabungX.splice(0, tabungX.length);
+    };
+
+    this.resetTabungO = function () {
+        tabungO.splice(0, tabungO.length);
     };
 };
 
@@ -194,6 +206,9 @@ function assigntxo(e) {
                     .css('color', p2Color);;
                 if (cb.check(storeXO.getTabungO(), row, column, assign.getContent())) {
                     assign.setFlagsWin(true);
+                    winRate.p2 = winRate.p2 + 1;
+                    setViewWinRate();
+                    assign.setContent(X);
                     alert('Player 2 win');
                 }
             } else {
@@ -204,12 +219,17 @@ function assigntxo(e) {
                     .css('color', p1Color);
                 if (cb.check(storeXO.getTabungX(), row, column, assign.getContent())) {
                     assign.setFlagsWin(true);
+                    winRate.p1 = winRate.p1 + 1;
+                    setViewWinRate();
+                    assign.setContent(O);
                     alert('Player 1 win');
                 }
             }
 
             assign.count();
             if (assign.getCount() == (table_row * table_column) && assign.getFlagsWin() ==  false) {
+                winRate.t = winRate.t + 1;
+                setViewWinRate();
                 alert('Tie');
             }
         }
@@ -232,17 +252,52 @@ function apply() {
     p1Color = player1_clour;
     p2Color = player2_clour;
     load();
+    continueGame();
+}
+
+function continueGame() {
+    storeXO.resetTabungX();
+    storeXO.resetTabungO();
+    assign.resetCount();
+    assign.setFlagsWin(false);
+    load();
 }
 
 function reload() {
     location.reload();
 }
 
+let winRate = {
+    p1: 0,
+    p2: 0,
+    t: 0
+};
+
+ function setViewWinRate() {
+     let winPlayer1 = $('#winPlayer1'),
+         winPlayer2 = $('#winPlayer2'),
+         tie = $('#tie');
+
+     winPlayer1.html(winRate.p1);
+     winPlayer2.html(winRate.p2);
+     tie.html(winRate.t);
+ }
+
 $(document).ready(function () {
+    let row_column = $('#row_column'),
+        p1Color = $('#p1Color'),
+        p2Color = $('#p2Colour');
+
+    p1Color.val('#000');
+    p2Color.val('#000');
+    row_column.val(3);
     load();
-    $('#show_slider').html($('#row_column').val());
+    setViewWinRate();
+    continueGame();
+    $('#show_slider').html(row_column.val());
     $('table').on('click', 'td', assigntxo);
     $('#reset').on('click', reload);
     $('#apply').on('click', apply);
     $('#row_column').change(sliderRowColumn);
+    $('#continue').click(continueGame);
 });
